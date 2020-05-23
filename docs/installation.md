@@ -37,11 +37,11 @@ sidebar_label: Installation
    cd learnplex-backend
    ```
 1. Follow the instructions at [creating-an-oauth-app](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) to create an oauth app.
-  > You can set the `Application name` to anything you like - Ex: Learnplex Local
+    > You can set the `Application name` to anything you like - Ex: Learnplex Local
    
-   > Set the `Homepage URL` to `http://localhost:4000`
+    > Set the `Homepage URL` to `http://localhost:4000`
 
-   > Set the `Authorization callback URL` to `http://localhost:4000/auth/github/callback`
+    > Set the `Authorization callback URL` to `http://localhost:4000/auth/github/callback`
 1. Now visit [Developer Settings](https://github.com/settings/developers) and open your newly created application in OAuth Applications.
 1. Copy the `Client ID` and `Client Secret` from here and set them in your `.env` file
 1. Fire up docker containers, this will start PostgreSQL db, Redis and PgAdmin
