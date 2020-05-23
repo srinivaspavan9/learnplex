@@ -36,11 +36,6 @@ sidebar_label: Installation
    ```sh
    cd learnplex-backend
    ```
-1. Create `.env`, `database.env` file from `.env.sample`, `database.env.sample` respectively
-   ```sh
-   cp .env.sample .env
-   cp database.env.sample database.env
-   ```
 1. Follow the instructions at [creating-an-oauth-app](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) to create an oauth app.
    > Set the Authorization callback URL to `http://localhost:4000/auth/github/callback`
 1. Now visit [Developer Settings](https://github.com/settings/developers) and open your newly created application in OAuth Applications.
