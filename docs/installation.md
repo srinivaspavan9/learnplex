@@ -81,7 +81,9 @@ sidebar_label: Installation
 1. To get the `id` of a user, add the following to GraphQL playground at [localhost:4000/graphql](http://localhost:4000/graphql) 
 in your browser and execute it
     ```graphql
-    # Replace `test@test.com` and `test123` with your email and password
+    # Register a user locally at http://localhost:3000/register and then 
+    # replace `test@test.com` and `test123` in the following with your email and password
+
     mutation {
       login(usernameOrEmail: "test@test.com", password: "test123") {
         user {
