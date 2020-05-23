@@ -45,26 +45,36 @@ sidebar_label: Installation
 1. Now visit [Developer Settings](https://github.com/settings/developers) and open your newly created application in OAuth Applications.
 1. Copy the `Client ID` and `Client Secret` from here and set them in your `.env` file
 1. Fire up docker containers, this will start PostgreSQL db, Redis and PgAdmin
-   - MacOS, Linux and Windows (with bash enabled)
-     ```sh
-     # If you already have postgres/redis running locally, stop them before running the below commands
-     # If you have never installed postgres and redis in your system, you can run the below commands directly.
-     
-     # in root directory of learnplex-backend project
-     bash ./docker.sh start
-     # or simply you can run
-     ./docker.sh start
-     # you can see all available options and current running docker images by running
-     ./docker.sh
-     ```
-   - Windows
-
-     > Refer to this [issue](https://github.com/coderplex/learnplex-backend/issues/4)
-
-     ```sh
-     # TODO: write a script `docker.bat` equivalent to `docker.sh` for Windows
-     ```
-   > You can access PgAdmin at [http://localhost:5050](http://localhost:5050)
+    - MacOS and Linux
+        ```sh
+         # If you already have postgres/redis running locally, stop them before running the below commands
+         # If you have never installed postgres and redis in your system, you can run the below commands directly.
+         
+         # in root directory of learnplex-backend project
+         bash docker.sh start
+         # or simply you can run
+         ./docker.sh start
+         # you can see all available options and current running docker images by running
+         ./docker.sh
+        ```
+    - Windows (with bash enabled)
+        ```sh
+          # If you already have postgres/redis running locally, stop them before running the below commands
+          # If you have never installed postgres and redis in your system, you can run the below commands directly.
+          
+          # in root directory of learnplex-backend project
+          bash docker-windows.sh start
+          # or simply you can run
+          ./docker-windows.sh start
+          # you can see all available options and current running docker images by running
+          ./docker-windows.sh
+        ```
+    - Windows (without bash)
+         > Refer to this [issue](https://github.com/coderplex/learnplex-backend/issues/4)
+         ```sh
+         # TODO: write a script `docker.bat` equivalent to `docker.sh` for Windows
+         ```
+    > You can access PgAdmin at [http://localhost:5050](http://localhost:5050)
 1. Install dependencies
    ```sh
    yarn
