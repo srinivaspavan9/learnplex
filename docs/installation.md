@@ -32,9 +32,10 @@ sidebar_label: Installation
    ```sh
    git clone <your-forked-repo-url>
    ```
-1. Move to the repo folder
+1. Move to the repo folder and create .env file from .env.sample
    ```sh
    cd learnplex-backend
+   cp .env.sample .env
    ```
 1. Follow the instructions at [creating-an-oauth-app](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) to create an oauth app.
     > You can set the `Application name` to anything you like - Ex: Learnplex Local
