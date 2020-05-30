@@ -36,8 +36,7 @@ export default (props) => {
           <ColorModeSwitch key="1" />,
         ]}
         sidebarOrdering={{
-          'index.mdx': false,
-          'about.mdx': true,
+          'index.mdx': true,
           'prerequisites.mdx': true,
           'installation.mdx': true,
           'contributing.mdx': true,
