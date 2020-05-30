@@ -10,7 +10,7 @@ sidebar_label: Prerequisites
    node -v
    ```
    > If you face problem updating your node then you might need a Node version manager tool like [nvm](https://github.com/nvm-sh/nvm)
-1. [Yarn](https://classic.yarnpkg.com/en/docs/install) >= 1.5
+1. [Yarn](https://classic.yarnpkg.com/en/docs/install) >= 1.22.x
    ```sh
    # To check if yarn is installed and find its version, run
    yarn -v
