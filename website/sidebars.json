@@ -1,8 +1,0 @@
-{
-  "docs": {
-    "Getting Started": ["about","prerequisites","installation", "contributing"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
-  }
-}
