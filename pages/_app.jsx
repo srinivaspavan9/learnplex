@@ -32,7 +32,7 @@ export default (props) => {
           </>
         }
         headerItems={[
-          <GithubLink key="0" url="https://github.com/remorses/dokz" />,
+          <GithubLink key="0" url="https://github.com/coderplex/learnplex" />,
           <ColorModeSwitch key="1" />,
         ]}
         sidebarOrdering={{
