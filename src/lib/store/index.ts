@@ -14,19 +14,17 @@ interface UserStateProps {
   reset: () => void
 }
 
+const fn = (set: NamedSetState<UserStateProps>) => ({
+  user: null,
+  setUser: (user: Partial<User> | undefined | null) =>
+    set((state) => ({ user: { ...(state.user || {}), ...user } }), 'SET_USER'),
+  reset: () => set({ user: null }, 'RESET_USER'),
+})
+
+const isProduction = process.env.NODE_ENV === 'production'
+
 const [useAuthUser, authUserState] = create(
-  devtools(
-    (set: NamedSetState<UserStateProps>) => ({
-      user: null,
-      setUser: (user: Partial<User> | undefined | null) =>
-        set(
-          (state) => ({ user: { ...(state.user || {}), ...user } }),
-          'SET_USER'
-        ),
-      reset: () => set({ user: null }, 'RESET_USER'),
-    }),
-    'USER'
-  )
+  isProduction ? fn : devtools(fn, 'USER')
 )
 
 export { useAuthUser, authUserState }
