@@ -32,5 +32,6 @@ yarn-error.log*
 
 # editor
 .idea
+.vscode
 
 .serverless_nextjs
