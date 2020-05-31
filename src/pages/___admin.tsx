@@ -1,19 +1,18 @@
 import useSWR from 'swr'
 import NProgress from 'nprogress'
-import { useContext } from 'react'
 import { Button, message, Skeleton } from 'antd'
 
 import ResourceCards from '../components/learn/ResourceCards'
-import { UserContext } from '../lib/contexts/UserContext'
 import { UserRole } from '../graphql/types'
 import NotAuthorized from '../components/result/NotAuthorized'
 import { repopulateAllSlugs } from '../utils/populateSlugs'
 import { fetcher } from '../utils/fetcher'
 import InternalServerError from '../components/result/InternalServerError'
+import { useAuthUser } from '../lib/store'
 
 export default function AdminPage() {
   const { data, error } = useSWR('/api/resources', fetcher)
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
   if (error) {
     return <InternalServerError message={error.message} />
   }
@@ -21,7 +20,7 @@ export default function AdminPage() {
     return <Skeleton active={true} />
   }
 
-  if (!user?.roles.includes(UserRole.Admin)) {
+  if (!user?.roles?.includes(UserRole.Admin)) {
     return <NotAuthorized />
   }
 

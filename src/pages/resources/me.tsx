@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Skeleton } from 'antd'
 import { useQuery } from 'urql'
 
@@ -7,7 +7,7 @@ import InternalServerError from '../../components/result/InternalServerError'
 import { Resource } from '../../graphql/types'
 import ResourceCards from '../../components/learn/ResourceCards'
 import { SEO } from '../../components/SEO'
-import { UserContext } from '../../lib/contexts/UserContext'
+import { useAuthUser } from '../../lib/store'
 
 export default function MyResources() {
   const RESOURCES_QUERY = `
@@ -31,7 +31,7 @@ export default function MyResources() {
       }
     }
   `
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
   const [
     { data, fetching: resourcesFetching, error: resourcesError },
   ] = useQuery({

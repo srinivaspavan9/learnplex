@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Button, Divider, Form, Input, message } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 import urljoin from 'url-join'
@@ -10,12 +10,12 @@ import { getServerEndPoint } from '../utils/getServerEndPoint'
 import { FORM_LAYOUT, FORM_TAIL_LAYOUT } from '../constants'
 import { logEvent } from '../utils/analytics'
 import AlreadyLoggedIn from '../components/result/AlreadyLoggedIn'
-import { UserContext } from '../lib/contexts/UserContext'
 import { login } from '../graphql/mutations/auth'
+import { useAuthUser } from '../lib/store'
 
 export default function Login() {
   const router = useRouter()
-  const { setUser } = useContext(UserContext)
+  const setUser = useAuthUser((state) => state.setUser)
 
   const onFinish = async ({ usernameOrEmail, password }: any) => {
     NProgress.start()
@@ -42,7 +42,7 @@ export default function Login() {
     NProgress.done()
   }
 
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
 
   if (user) {
     return <AlreadyLoggedIn />

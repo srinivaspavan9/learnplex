@@ -1,5 +1,5 @@
 import { Button, Col, Grid, message, Row, Typography } from 'antd'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import {
@@ -14,10 +14,10 @@ import { CONTENT_COL_LAYOUT, SIDEBAR_COL_LAYOUT } from '../../../constants'
 import SidebarV2 from './Sidebar'
 import customMdParser from '../Editor/lib/customMdParser'
 import { Resource, Section } from '../../../graphql/types'
-import { UserContext } from '../../../lib/contexts/UserContext'
 import { completeSection } from '../../../utils/completeSection'
 import { checkIfEnrolledQuery, startProgress } from '../../../utils/progress'
 import { getUserProgressByResourceId } from '../../../utils/getUserProgressByResourceId'
+import { useAuthUser } from '../../../lib/store'
 
 interface Props {
   slugs: string[]
@@ -40,7 +40,7 @@ export default function ResourcePageV2({
 }: Props) {
   const router = useRouter()
   const { xs } = Grid.useBreakpoint()
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
   const [sidebarVisible, setSidebarVisible] = useState(false)
 
   const [enrolled, setEnrolled] = useState(false)

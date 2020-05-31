@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Button, Divider, Form, Input, message } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 import urljoin from 'url-join'
@@ -10,12 +10,12 @@ import { getServerEndPoint } from '../utils/getServerEndPoint'
 import { FORM_LAYOUT, FORM_TAIL_LAYOUT } from '../constants'
 import { logEvent } from '../utils/analytics'
 import AlreadyRegistered from '../components/result/AlreadyRegistered'
-import { UserContext } from '../lib/contexts/UserContext'
 import {
   register,
   validateEmail,
   validateUsername,
 } from '../graphql/mutations/auth'
+import { useAuthUser } from '../lib/store'
 
 const validateMessages = {
   types: {
@@ -25,7 +25,7 @@ const validateMessages = {
 
 export default function Register() {
   const router = useRouter()
-  const { setUser } = useContext(UserContext)
+  const setUser = useAuthUser((state) => state.setUser)
 
   const onFinish = async ({ name, email, username, password }: any) => {
     logEvent('guest', 'TRIES_TO_REGISTER')
@@ -49,7 +49,7 @@ export default function Register() {
     NProgress.done()
   }
 
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
   const [form] = Form.useForm()
 
   if (user) {

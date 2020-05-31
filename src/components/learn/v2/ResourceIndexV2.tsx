@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Row, Tooltip, Typography } from 'antd'
 import { useRouter } from 'next/router'
 import NProgress from 'nprogress'
 
 import { CONTENT_WITHOUT_SIDEBAR_COL_LAYOUT } from '../../../constants'
 import SectionItemsV2 from './SectionItems'
-import { UserContext } from '../../../lib/contexts/UserContext'
 import { checkIfEnrolledQuery, startProgress } from '../../../utils/progress'
 import { Resource, Section } from '../../../graphql/types'
+import { useAuthUser } from '../../../lib/store'
 
 interface Props {
   resource: Resource
@@ -16,7 +16,7 @@ interface Props {
 
 export default function ResourceIndexV2({ resource, sectionsMap }: Props) {
   const router = useRouter()
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
 
   /**
    * Temporary fix, after figuring out why cookies are not being sent in /api,

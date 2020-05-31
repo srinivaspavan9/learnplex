@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Button, Form, Input, Skeleton } from 'antd'
 import { useMutation, useQuery } from 'urql'
 import NProgress from 'nprogress'
@@ -10,10 +10,10 @@ import NotAuthorized from '../../components/result/NotAuthorized'
 import NotAuthenticated from '../../components/result/NotAuthenticated'
 import InternalServerError from '../../components/result/InternalServerError'
 import { FORM_LAYOUT, FORM_TAIL_LAYOUT } from '../../constants'
-import { UserContext } from '../../lib/contexts/UserContext'
+import { useAuthUser } from '../../lib/store'
 
 export default function CreateTopic() {
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
 
   const [form] = Form.useForm()
   const CREATE_TOPIC_MUTATION = `
@@ -58,7 +58,7 @@ export default function CreateTopic() {
   }
 
   if (!user) return <NotAuthenticated />
-  if (!user.roles.includes(UserRole.Admin)) return <NotAuthorized />
+  if (!user.roles?.includes(UserRole.Admin)) return <NotAuthorized />
 
   if (topicsFetching) return <Skeleton active={true} />
   if (topicsError) return <InternalServerError message={topicsError.message} />

@@ -1,13 +1,13 @@
 import { useMutation } from 'urql'
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import NProgress from 'nprogress'
 import { Skeleton } from 'antd'
-import { UserContext } from '../lib/contexts/UserContext'
+import { useAuthUser } from '../lib/store'
 
 export default function Logout() {
   const router = useRouter()
-  const { setUser } = useContext(UserContext)
+  const reset = useAuthUser((state) => state.reset)
   const LOGOUT_MUTATION = `
     mutation {
       logout
@@ -20,12 +20,12 @@ export default function Logout() {
       if (result.error) {
         console.error({ 'logout error': result.error })
       } else {
-        setUser(null)
+        reset()
         await router.push('/login')
       }
     })
     NProgress.done()
-  }, [logout, router, setUser])
+  }, [logout, reset, router])
 
   return <Skeleton active={true} />
 }

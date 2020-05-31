@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import { Skeleton } from 'antd'
 import useSWR from 'swr'
@@ -6,10 +6,10 @@ import useSWR from 'swr'
 import EditResourcePageV2 from '../../../../components/learn/v2/edit/EditResourcePageV2'
 import { fetcher } from '../../../../utils/fetcher'
 import InternalServerError from '../../../../components/result/InternalServerError'
-import { UserContext } from '../../../../lib/contexts/UserContext'
 import NotAuthenticated from '../../../../components/result/NotAuthenticated'
 import NotAuthorized from '../../../../components/result/NotAuthorized'
 import { SEO } from '../../../../components/SEO'
+import { useAuthUser } from '../../../../lib/store'
 
 export default function EditResourceV2() {
   const router = useRouter()
@@ -18,7 +18,7 @@ export default function EditResourceV2() {
   const slugsPath = slugs.reduce((a, b) => `${a}/${b}`, '')
   const url = `/api/slugs?resourceSlug=${resourceSlug}&slugsPath=${slugsPath}&editMode=${true}`
   const { data, error, mutate } = useSWR(url, fetcher)
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
 
   if (error) return <InternalServerError message={error.message} />
   if (!data) return <Skeleton active={true} />
@@ -27,7 +27,7 @@ export default function EditResourceV2() {
   if (!user) {
     return <NotAuthenticated />
   }
-  if (resource.userId.toString() !== user.id.toString()) {
+  if (resource.userId.toString() !== user.id?.toString()) {
     return <NotAuthorized />
   }
   const currentSection = data.currentSection

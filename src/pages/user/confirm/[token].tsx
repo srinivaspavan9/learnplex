@@ -1,10 +1,10 @@
 import { useMutation } from 'urql'
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import NProgress from 'nprogress'
 import { useRouter } from 'next/router'
 import { Skeleton } from 'antd'
 
-import { UserContext } from '../../../lib/contexts/UserContext'
+import { useAuthUser } from '../../../lib/store'
 
 export default function ConfirmEmail() {
   const CONFIRM_EMAIL_MUTATION = `
@@ -23,7 +23,7 @@ export default function ConfirmEmail() {
   `
   const [, confirmEmail] = useMutation(CONFIRM_EMAIL_MUTATION)
   const router = useRouter()
-  const { setUser } = useContext(UserContext)
+  const setUser = useAuthUser((state) => state.setUser)
 
   useEffect(() => {
     NProgress.start()

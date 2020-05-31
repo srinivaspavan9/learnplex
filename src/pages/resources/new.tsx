@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Input, message, Select } from 'antd'
 import { useRouter } from 'next/router'
 import NProgress from 'nprogress'
@@ -7,17 +7,17 @@ import { SEO } from '../../components/SEO'
 import { Resource, Topic } from '../../graphql/types'
 import NotAuthenticated from '../../components/result/NotAuthenticated'
 import { FORM_LAYOUT, FORM_TAIL_LAYOUT } from '../../constants'
-import { UserContext } from '../../lib/contexts/UserContext'
 import { slug } from '../../utils/slug'
 import { createResource } from '../../utils/createResource'
 import { getTopics } from '../../utils/getTopics'
 import { getAllResourceSlugs } from '../../utils/getAllResourceSlugs'
+import { useAuthUser } from '../../lib/store'
 
 export default function CreateResource() {
   const [form] = Form.useForm()
   const [slugChangedByUser, setSlugChangedByUser] = useState(false)
   const router = useRouter()
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
 
   const [resources, setResources] = useState([])
   const [topics, setTopics] = useState([])

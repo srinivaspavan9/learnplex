@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Menu, Affix, message, Grid, Tooltip, Popconfirm } from 'antd'
 import { useRouter } from 'next/router'
 import {
@@ -10,13 +10,13 @@ import {
 } from '@ant-design/icons'
 
 import { Resource, UserRole } from '../../../graphql/types'
-import { UserContext } from '../../../lib/contexts/UserContext'
 import { getResourceBySlug } from '../../../utils/getResourceBySlug'
 import { togglePublishStatus as togglePublishStatusInDB } from '../../../utils/togglePublishStatus'
+import { useAuthUser } from '../../../lib/store'
 
 export default function Header() {
   const router = useRouter()
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
   const resourceSlug = router.query.resource as string
 
   const [resource, setResource] = useState(null as Resource | null)
@@ -84,7 +84,7 @@ export default function Header() {
       isLoggedIn &&
       (router.pathname === '/learn/[resource]' ||
         router.pathname === '/learn/[resource]/[...slugs]') &&
-      resourceOwnerUserId?.toString() === user?.id.toString()
+      resourceOwnerUserId?.toString() === user?.id?.toString()
     )
   }
 
@@ -93,7 +93,7 @@ export default function Header() {
       isLoggedIn &&
       (router.pathname === '/learn/edit/[resource]/[...slugs]' ||
         router.pathname === '/learn/edit/[resource]') &&
-      resourceOwnerUserId?.toString() === user?.id.toString()
+      resourceOwnerUserId?.toString() === user?.id?.toString()
     )
   }
 
@@ -229,7 +229,7 @@ export default function Header() {
                 <Menu.SubMenu key={'user'} title={user?.name ?? user?.username}>
                   <Menu.Item key={'/profile/settings'}>Profile</Menu.Item>
                   <Menu.Item key={'/resources/me'}>My Resources</Menu.Item>
-                  {user?.roles.includes(UserRole.Admin) && (
+                  {user?.roles?.includes(UserRole.Admin) && (
                     <Menu.Item key={'/topics/new'}>Create Topic</Menu.Item>
                   )}
                   <Menu.Item key={'/logout'}>Logout</Menu.Item>,

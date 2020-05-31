@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect } from 'react'
 import { AppProps } from 'next/app'
 import 'isomorphic-unfetch'
 import Router from 'next/router'
@@ -14,9 +14,8 @@ import '../styles/lessvars.less'
 import withUrql from '../lib/withUrqlClient'
 import { initGA, logPageView } from '../utils/analytics'
 import { getSiteLayout } from '../components/layouts/SiteLayout'
-import { UserContext } from '../lib/contexts/UserContext'
-import { User } from '../graphql/types'
 import getLoggedInUser from '../utils/getLoggedInUser'
+import { useAuthUser } from '../lib/store'
 
 Router.events.on('routeChangeStart', (url) => {
   console.log(`Loading: ${url}`)
@@ -36,8 +35,8 @@ export function reportWebVitals({ id, name, label, value }: any) {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [user, setUser] = useState(null as User | null)
-  const value = useMemo(() => ({ user, setUser }), [user, setUser])
+  const user = useAuthUser((state) => state.user)
+  const setUser = useAuthUser((state) => state.setUser)
   useEffect(() => {
     initGA()
     logPageView()
@@ -45,20 +44,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [])
 
   useEffect(() => {
-    getLoggedInUser().then((result) => {
-      if (!result.error) {
-        setUser(result.user)
-      }
-    })
-  }, [])
+    if (!user) {
+      getLoggedInUser().then((result) => {
+        if (!result.error) {
+          setUser(result.user)
+        }
+      })
+    }
+  }, [setUser, user])
 
   const getLayout = (Component as any).getLayout || getSiteLayout
 
-  return (
-    <UserContext.Provider value={value}>
-      {getLayout(<Component {...pageProps} />)}
-    </UserContext.Provider>
-  )
+  return getLayout(<Component {...pageProps} />)
 }
 
 export default withUrql(MyApp)

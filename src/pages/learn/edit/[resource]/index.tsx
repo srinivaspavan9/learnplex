@@ -1,11 +1,10 @@
 import useSWR from 'swr'
 import { Col, Grid, message, Row, Skeleton, Typography } from 'antd'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 
 import { fetcher } from '../../../../utils/fetcher'
 import InternalServerError from '../../../../components/result/InternalServerError'
-import { UserContext } from '../../../../lib/contexts/UserContext'
 import NotAuthorized from '../../../../components/result/NotAuthorized'
 import NotAuthenticated from '../../../../components/result/NotAuthenticated'
 import { SEO } from '../../../../components/SEO'
@@ -15,6 +14,7 @@ import { updateResourceTitle as updateResourceTitleInDB } from '../../../../util
 import { updateResourceDescription as updateResourceDescriptionInDB } from '../../../../utils/updateResourceDescription'
 import { updateResourceSlug as updateResourceSlugInDB } from '../../../../utils/updateResourceSlug'
 import EditSidebarV2 from '../../../../components/learn/v2/edit/EditSidebarV2'
+import { useAuthUser } from '../../../../lib/store'
 
 export default function EditResourceIndexPageV2() {
   const router = useRouter()
@@ -22,7 +22,7 @@ export default function EditResourceIndexPageV2() {
   const resourceSlug = router.query.resource as string
   const url = `/api/resource?resourceSlug=${resourceSlug}`
   const { data, error, mutate } = useSWR(url, fetcher)
-  const { user: loggedInUser } = useContext(UserContext)
+  const loggedInUser = useAuthUser((state) => state.user)
 
   if (error) {
     return <InternalServerError message={error.message} />
@@ -38,7 +38,7 @@ export default function EditResourceIndexPageV2() {
   const ownerId = resource.userId
   const isLoggedIn = !!loggedInUser
   const canViewPage =
-    isLoggedIn && ownerId.toString() === loggedInUser.id.toString()
+    isLoggedIn && ownerId.toString() === loggedInUser?.id?.toString()
 
   if (!isLoggedIn) {
     return <NotAuthenticated />

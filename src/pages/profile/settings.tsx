@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
   Col,
@@ -10,14 +10,13 @@ import {
   Row,
   Tooltip,
 } from 'antd'
-import { CheckCircleTwoTone, ExclamationCircleTwoTone } from '@ant-design/icons'
+import { ExclamationCircleTwoTone } from '@ant-design/icons'
 import NProgress from 'nprogress'
 import { useRouter } from 'next/router'
 
 import { FORM_LAYOUT, FORM_TAIL_LAYOUT } from '../../constants'
 import { SEO } from '../../components/SEO'
 import Enrollments from '../../components/user/Enrollments'
-import { UserContext } from '../../lib/contexts/UserContext'
 import NotAuthenticated from '../../components/result/NotAuthenticated'
 import {
   resendVerificationEmail as resendEmail,
@@ -26,10 +25,11 @@ import {
   validateEmail,
   validateUsername,
 } from '../../graphql/mutations/auth'
+import { useAuthUser } from '../../lib/store'
 
 export default function ProfileSettings() {
   const router = useRouter()
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
 
   const BASIC = 'basic'
   const SECURITY = 'security'

@@ -11,18 +11,18 @@ import {
   Empty,
   message,
 } from 'antd'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery } from 'urql'
 import NProgress from 'nprogress'
 import { TagOutlined, UserOutlined } from '@ant-design/icons'
 
 import { Progress, Resource } from '../../graphql/types'
-import { UserContext } from '../../lib/contexts/UserContext'
 import {
   togglePrimaryStatus,
   togglePublishStatus,
 } from '../../utils/togglePublishStatus'
+import { useAuthUser } from '../../lib/store'
 
 export default function ResourceCards({
   resources,
@@ -50,7 +50,7 @@ export default function ResourceCards({
     await router.push(`/${username}/resources`)
   }
 
-  const { user } = useContext(UserContext)
+  const user = useAuthUser((state) => state.user)
   const isLoggedIn = !!user
   const isAdminPage = router.asPath === '/___admin'
 
