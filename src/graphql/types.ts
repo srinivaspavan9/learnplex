@@ -40,6 +40,7 @@ export type Query = {
   hasEnrolledByResourceId: Scalars['Boolean']
   hasCompletedSection: Scalars['Boolean']
   sectionsListFromBaseSectionIdV2: Array<Section>
+  userByUsername: User
 }
 
 export type QueryPrimaryResourceBySlugArgs = {
@@ -117,6 +118,10 @@ export type QuerySectionsListFromBaseSectionIdV2Args = {
   baseSectionId: Scalars['String']
 }
 
+export type QueryUserByUsernameArgs = {
+  username: Scalars['String']
+}
+
 export type LoginResponse = {
   __typename?: 'LoginResponse'
   accessToken: Scalars['String']
@@ -135,6 +140,10 @@ export type User = {
   githubId?: Maybe<Scalars['Int']>
   resources: Array<Resource>
   progressList: Array<Progress>
+  createdDate: Scalars['DateTime']
+  updatedDate: Scalars['DateTime']
+  profile?: Maybe<Profile>
+  profileId?: Maybe<Scalars['Int']>
 }
 
 export enum UserRole {
@@ -245,6 +254,36 @@ export type Progress = {
   resourceId?: Maybe<Scalars['String']>
 }
 
+export type Profile = {
+  __typename?: 'Profile'
+  id: Scalars['ID']
+  shortBio: Scalars['String']
+  profilePic: Scalars['String']
+  technologies: Array<Scalars['String']>
+  socialLinks: SocialLinks
+  isEmailPublic: Scalars['Boolean']
+  professionalDetails: ProfessionalDetails
+  user: User
+  createdDate: Scalars['DateTime']
+  updatedDate: Scalars['DateTime']
+}
+
+export type SocialLinks = {
+  __typename?: 'SocialLinks'
+  github?: Maybe<Scalars['String']>
+  twitter?: Maybe<Scalars['String']>
+  linkedin?: Maybe<Scalars['String']>
+  personalWebsite?: Maybe<Scalars['String']>
+}
+
+export type ProfessionalDetails = {
+  __typename?: 'ProfessionalDetails'
+  currentCompanyName?: Maybe<Scalars['String']>
+  currentRole?: Maybe<Scalars['String']>
+  lookingForJob?: Maybe<Scalars['Boolean']>
+  location?: Maybe<Scalars['String']>
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   changePassword?: Maybe<LoginResponse>
@@ -285,6 +324,7 @@ export type Mutation = {
   populateSlugsByResourceId: Scalars['Boolean']
   createResourceV2: Resource
   setDepths: Scalars['Boolean']
+  updateProfile: Profile
 }
 
 export type MutationChangePasswordArgs = {
@@ -430,6 +470,10 @@ export type MutationCreateResourceV2Args = {
   data: CreateResourceInput
 }
 
+export type MutationUpdateProfileArgs = {
+  data: ProfileInput
+}
+
 export type ChangePasswordInput = {
   password: Scalars['String']
   token: Scalars['String']
@@ -496,4 +540,27 @@ export type UpdateUserOptionalInput = {
   email?: Maybe<Scalars['String']>
   username?: Maybe<Scalars['String']>
   currentUsername: Scalars['String']
+}
+
+export type ProfileInput = {
+  shortBio?: Maybe<Scalars['String']>
+  technologies?: Maybe<Array<Scalars['String']>>
+  socialLinks?: Maybe<SocialLinksInput>
+  isEmailPublic: Scalars['Boolean']
+  professionalDetails?: Maybe<ProfessionalDetailsInput>
+  profilePic: Scalars['String']
+}
+
+export type SocialLinksInput = {
+  github?: Maybe<Scalars['String']>
+  twitter?: Maybe<Scalars['String']>
+  linkedin?: Maybe<Scalars['String']>
+  personalWebsite?: Maybe<Scalars['String']>
+}
+
+export type ProfessionalDetailsInput = {
+  currentCompanyName?: Maybe<Scalars['String']>
+  currentRole?: Maybe<Scalars['String']>
+  lookingForJob?: Maybe<Scalars['Boolean']>
+  location?: Maybe<Scalars['String']>
 }
