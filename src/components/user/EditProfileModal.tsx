@@ -104,11 +104,7 @@ export default function EditProfileModal({
         <Form.Item name={'profilePic'} label={'Profile Pic URL'}>
           <Input placeholder={'https://example.com/my-profile-pic'} />
         </Form.Item>
-        <Form.Item
-          name={'shortBio'}
-          label={'Short Bio'}
-          rules={[{ required: true, max: 100 }]}
-        >
+        <Form.Item name={'shortBio'} label={'Short Bio'} rules={[{ max: 100 }]}>
           <Input.TextArea placeholder={'A short bio...'} />
         </Form.Item>
         <Form.Item name={['socialLinks', 'github']} label={'Github'}>
