@@ -1,0 +1,79 @@
+- First uninstall your Node.js using `apt` or `nvm`, depending on the version you want to target. To remove the distro-stable version, you will need to work with the `apt` utility at the system level. To remove the distro-stable version, type the following: 
+   
+   ```
+   $ sudo apt remove nodejs
+   ```
+   This command will remove the package and retain the cconfiguration files. These may be of use to you if you intend to install the package again at a later point. If you don't want to save the configuration files for later use, then run the following:
+   ```
+   $ sudo apt purge nodejs
+   ```
+   This will uninstall the package and remove the configurations files associated with it. As a final step, you can remove any unused packages that were automatically installed with the removed package:
+   ```
+   $ sudo apt autoremove
+   ```
+   Now, again crosscheck the `node` is removed or not:
+   ```
+   $ node --version
+   ```
+   - Now you can install `node` using `nvm`. Follow given steps:
+   > To download the `nvm` installation you can use `curl`. Note that the version number may differ from what is highlighted here:
+   
+   ```
+   $ curl -sL https://raw.githubusercontent.com/creationix/nvm/ v0.33.11 /install.sh -o install_nvm.sh
+   ```
+   Now, inspect the installation with `nano`:
+   ```
+   $ nano install_nvm.sh
+   ```
+   Run the script with `bash`:
+   ```
+   $ bash install_nvm.sh
+   ```
+   It will install the software into a subdirectory of your home directory at `~/.nvm` . It will also
+add the necessary lines to your `~/.profile` file to use the file. To gain access to the `nvm` functionality, you’ll need to either log out and log back in again or source the `~/.profile` file so that your current session knows about the changes:
+```
+$ source ~/.profile
+```
+With `nvm` installed, you can install isolated `Node.js` versions. For information about the versions of `Node.js` that are available, type:
+```
+$ nvm list
+```
+It will list all versions available. As you will see, the current LTS version at the time of this writing will be something vx.xx.x. You can install your desired version acoording to project requirement by typing:
+```
+nvm install 12.17.0
+```
+Usually, `nvm` will switch to use the most recently installed version. You can tell `nvm` to use
+the version you just downloaded by typing:
+```
+$ nvm use 12.17.0
+```
+When you install `Node.js` using `nvm` , the executable is called `node` . You can see the version currently being used by the shell by typing:
+```
+$ node -v
+
+output: v12.17.0
+```
+If you have multiple `Node.js` versions, you can see what is installed by typing:
+```
+$ nvm ls
+```
+Each version of `Node.js` will keep track of its own packages and has `npm` available to manage these. You can also have `npm` install packages to the `Node.js` project’s `./node_modules` directory. Use the following syntax to install the `express` module:
+```
+$ npm install express
+```
+If you’d like to install the module globally, making it available to other projects using the same version of `Node.js`, you can add the `-g` flag:
+```
+$ npm install -g express
+```
+This will install the package in:
+```
+$ ~/.nvm/versions/node/ node_version /lib/node_modules/ express
+```
+Installing the module globally will let you run commands from the command line, but you’ll have to link the package into your local sphere to require it from within a program:
+```
+$ npm link express
+```
+You can learn more about the options available to you with nvm by typing:
+```
+$ nvm help
+```
