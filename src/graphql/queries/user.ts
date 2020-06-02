@@ -46,3 +46,60 @@ export async function getUserWithProfileByUsername({
   }
   return result.data.userByUsername
 }
+
+export async function getAllUsers() {
+  const USERS_QUERY = `
+    query {
+      users {
+        id
+        name
+        email
+        username
+        confirmed
+        roles
+        githubId
+        resources {
+          title
+        }
+        progressList {
+          resource {
+            title
+          }
+          completedSections {
+            title
+          }
+        }
+        createdDate
+        updatedDate
+        profile {
+          shortBio
+          profilePic
+          technologies
+          socialLinks {
+            github
+            twitter
+            linkedin
+            personalWebsite
+          }
+          isEmailPublic
+          professionalDetails {
+            currentCompanyName
+            currentRole
+            lookingForJob
+            location
+          }
+          createdDate
+          updatedDate
+        }
+      }
+    }
+  `
+  const result = await client.query(USERS_QUERY).toPromise()
+  if (result.error) {
+    return {
+      error: true,
+      message: result.error.message,
+    }
+  }
+  return result.data.users
+}
