@@ -112,6 +112,7 @@ export default function CustomEditorV2({
       <div className={'clearfix'} />
       <Typography>
         <Typography.Title
+          style={{ margin: '1vh 0vh 1vh 2vh' }}
           level={2}
           editable={{
             onChange: (value) => updateSectionTitle({ title: value }),
