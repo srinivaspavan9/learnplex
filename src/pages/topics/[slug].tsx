@@ -1,13 +1,12 @@
-import React from 'react'
-import { Skeleton } from 'antd'
-import { useQuery } from 'urql'
+import React, { useEffect, useState } from 'react'
+import { message } from 'antd'
 import { useRouter } from 'next/router'
 
 import { Resource } from '../../graphql/types'
 import ResourceCards from '../../components/learn/ResourceCards'
-import PageNotFound from '../../components/result/PageNotFound'
 import { SEO } from '../../components/SEO'
 import { titleCase } from '../../utils/titleCase'
+import { client } from '../../utils/urqlClient'
 
 export default function TopicResources() {
   const router = useRouter()
@@ -32,17 +31,22 @@ export default function TopicResources() {
       }
     }
   `
-  const [{ data, fetching, error }] = useQuery({
-    query: RESOURCES_BY_TOPIC_QUERY,
-    variables: {
-      slug: router.query.slug,
-    },
-  })
+  const [resources, setResources] = useState<Resource[]>([])
 
-  if (fetching) return <Skeleton active={true} />
-  if (error) return <PageNotFound />
-
-  const resources = data.resourcesByTopic as Resource[]
+  useEffect(() => {
+    client
+      .query(RESOURCES_BY_TOPIC_QUERY, {
+        slug: router.query.slug as string,
+      })
+      .toPromise()
+      .then((result) => {
+        if (result.error) {
+          message.error(result.error.message)
+        } else {
+          setResources(result.data.resourcesByTopic)
+        }
+      })
+  }, [RESOURCES_BY_TOPIC_QUERY, router.query.slug])
 
   return (
     <>

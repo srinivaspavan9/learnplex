@@ -139,7 +139,7 @@ export default function CreateResource() {
           </Button>
           <Button
             className={'float-right'}
-            onClick={() => router.push(`/resources`)}
+            onClick={() => router.push(`/resources/me`)}
           >
             My Resources
           </Button>
