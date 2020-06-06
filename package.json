@@ -54,7 +54,7 @@
     "react": "16.13.1",
     "react-beautiful-dnd": "13.0.0",
     "react-dom": "16.13.1",
-    "react-ga": "2.7.0",
+    "react-ga": "3.0.0",
     "react-idle-timer": "4.2.12",
     "react-is": "16.13.1",
     "react-json-view": "1.19.1",
